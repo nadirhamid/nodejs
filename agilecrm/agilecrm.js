@@ -17,7 +17,7 @@ AgileCRMManager.prototype.key = null;
 AgileCRMManager.prototype.email = null;
 
 AgileCRMManager.prototype.contactAPI = null;
-sea
+
 function ContactAPI(domain, key, email) {
     this.domain = domain;
     this.key = key;
