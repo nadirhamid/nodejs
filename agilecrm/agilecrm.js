@@ -17,7 +17,7 @@ AgileCRMManager.prototype.key = null;
 AgileCRMManager.prototype.email = null;
 
 AgileCRMManager.prototype.contactAPI = null;
-
+sea
 function ContactAPI(domain, key, email) {
     this.domain = domain;
     this.key = key;
@@ -129,6 +129,39 @@ ContactAPI.prototype.getContactByEmail = function getContactByEmail(email, succe
                     success(contacts);
                 } catch (ex) {
                     failure(ex);
+                }
+            }
+        });
+        resp.on('error', function(e) {
+            if (failure) {
+                failure(e);
+            }
+        });
+    }).on("error", function(e) {
+        if (failure) {
+            failure(e);
+        }
+    });
+};
+
+ContactAPI.prototype.getContactByPhoneNumber = function getContactByPhoneNumber(number, success, failure) {
+    var options = this.getOptions();
+    options.path = '/dev/api/contacts/search/phonenumber/' + number;
+
+    https.get(options, function (resp) {
+        var body = "";
+        resp.on('data', function(data) {
+            body += data;
+        });
+        resp.on('end', function() {
+            if (success) {
+                try {
+          console.log("Status Code = " + resp.statusCode);
+          console.log("reply is ", body);
+                    var contacts = JSON.parse(body);
+                    success(contacts, resp.statusCode);
+                } catch (ex) {
+                    success([], resp.statusCode);
                 }
             }
         });
